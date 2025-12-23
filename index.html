@@ -63,7 +63,7 @@
 
   <h2>Inserisci il nome:</h2>
 
-  <input type="text" id="nome" placeholder="Famiglia Rossi">
+  <input type="text" id="nome" placeholder="es. Mario">
   <button onclick="genera()">Genera Auguri</button>
 
   <canvas id="canvas" width="1080" height="1080"></canvas>
@@ -85,7 +85,7 @@
 
         // ===== CONFIGURAZIONE ULTRA PRECISA =====
         const centerX = canvas.width / 2;  // centro targhetta
-        const baseY   = canvas.height - 120; // baseline sotto "da"
+        const baseY   = canvas.height - 100; // baseline sotto "da"
 
         ctx.font = '52px Arial';
         ctx.fillStyle = '#000';
@@ -109,3 +109,4 @@
 
 </body>
 </html>
+
