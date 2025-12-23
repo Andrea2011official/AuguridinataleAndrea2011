@@ -1,87 +1,222 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="it">
 <head>
-
+  <meta charset="UTF-8">
   <title>Auguri Personalizzati</title>
 
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 40px;
+      background: #f0f0f0;
+    }
 
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background: #f0f0f0; }
+    input {
+      font-size: 18px;
+      padding: 10px;
+      width: 300px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
 
-    input { font-size: 18px; padding: 10px; width: 300px; }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background: #2c3e50;
+      color: white;
+    }
 
-    button { font-size: 18px; padding: 10px 20px; margin-left: 10px; cursor: pointer; }
+    canvas {
+      display: block;
+      margin: 25px auto;
+      border: 1px solid #ccc;
+      background: #fff;
+      max-width: 100%;
+      height: auto;
+    }
 
-    canvas { margin-top: 20px; border: 1px solid #ccc; }
-
-    a { display: block; margin-top: 20px; font-size: 18px; }
-
+    a#download {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 32px;
+      font-size: 18px;
+      text-decoration: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #d4af37, #f7e27a);
+      color: #3b2f1c;
+      font-weight: bold;
+    }
   </style>
-
 </head>
 
 <body>
 
-  <h2>Inserisci il nome della famiglia o il tuo nome:</h2>
+  <h2>Inserisci il nome:</h2>
 
-  <input type="text" id="nome" placeholder="Famiglia Rossi">
-
+  <input type="text" id="nome" placeholder="es. Famiglia Rossi">
   <button onclick="genera()">Genera Auguri</button>
 
-  
+  <!-- 🎯 CANVAS FINALE -->
+  <canvas id="canvas" width="1080" height="1350"></canvas>
 
+  <a id="download" download="auguri.png">Scarica immagine</a>
+
+  <script>
+    function genera() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const nome = document.getElementById('nome').value || "Famiglia ...";
+
+      const TARGET_W = 1080;
+      const TARGET_H = 1350;
+
+      const img = new Image();
+      img.src = 'augurinatale.png'; // immagine base
+
+      img.onload = function () {
+
+        ctx.clearRect(0, 0, TARGET_W, TARGET_H);
+
+        // 🔢 SCALA PROPORZIONALE (NO DEFORMAZIONI)
+        const scale = Math.min(
+          TARGET_W / img.naturalWidth,
+          TARGET_H / img.naturalHeight
+        );
+
+        const drawW = img.naturalWidth * scale;
+        const drawH = img.naturalHeight * scale;
+
+        const drawX = (TARGET_W - drawW) / 2;
+        const drawY = (TARGET_H - drawH) / 2;
+
+        // 🖼️ Disegno immagine centrata
+        ctx.drawImage(img, drawX, drawY, drawW, drawH);
+
+        // ✍️ TESTO (pixel-perfect)
+        ctx.font = '52px Arial';
+        ctx.fillStyle = '#000';
+        ctx.textBaseline = 'alphabetic';
+
+        const centerX = TARGET_W / 2;
+        const baseY   = TARGET_H - 140; // regola se serve
+
+        const metrics = ctx.measureText(nome);
+        const textX = centerX - metrics.width / 2;
+
+        ctx.fillText(nome, textX, baseY);
+
+        // 📥 Download
+        document.getElementById('download').href =
+          canvas.toDataURL('image/png');
+      };
+    }
+  </script>
+
+</body>
+</html>
+Samuel Andrea Martin Ciavarella
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Auguri Personalizzati</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 40px;
+      background: #f0f0f0;
+    }
+
+    input {
+      font-size: 18px;
+      padding: 10px;
+      width: 300px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background: #2c3e50;
+      color: white;
+    }
+
+    canvas {
+      display: block;
+      margin: 25px auto;
+      border: 1px solid #ccc;
+      background: white;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a#download {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 32px;
+      font-size: 18px;
+      text-decoration: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #d4af37, #f7e27a);
+      color: #3b2f1c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Inserisci il nome:</h2>
+
+  <input type="text" id="nome" placeholder="es. Mario">
+  <button onclick="genera()">Genera Auguri</button>
+
+  <!-- CANVAS FISSO COME PRIMA -->
   <canvas id="canvas" width="1080" height="1080"></canvas>
 
   <a id="download" download="auguri.png">Scarica immagine</a>
 
-
-
   <script>
-
     function genera() {
-
       const canvas = document.getElementById('canvas');
-
       const ctx = canvas.getContext('2d');
-
       const nome = document.getElementById('nome').value || "Famiglia ...";
 
-
-
       const img = new Image();
+      img.src = 'augurinatale.png';
 
-      img.src = 'base_auguri.png'; // usa solo il nome del file, deve stare nella stessa cartella
-
-      img.onload = function() {
+      img.onload = function () {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // COME PRIMA: immagine forzata a 1080x1080
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-
-
-        ctx.font = '60px Arial';
-
-        ctx.fillStyle = 'white';
-
+        // testo
+        ctx.font = '52px Arial';
+        ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
+        ctx.textBaseline = 'alphabetic';
 
-        ctx.fillText(nome, canvas.width / 2, canvas.height - 80);
+        ctx.fillText(nome, canvas.width / 2, canvas.height - 100);
 
-
-
-        const link = document.getElementById('download');
-
-        link.href = canvas.toDataURL('image/png');
-
-      }
-
+        document.getElementById('download').href =
+          canvas.toDataURL('image/png');
+      };
     }
-
   </script>
 
 </body>
-
 </html>
