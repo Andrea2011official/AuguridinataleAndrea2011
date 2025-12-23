@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auguri Personalizzati</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background: #f0f0f0; }
+    input { font-size: 18px; padding: 10px; width: 300px; }
+    button { font-size: 18px; padding: 10px 20px; margin-left: 10px; cursor: pointer; }
+    canvas { margin-top: 20px; border: 1px solid #ccc; }
+    a { display: block; margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h2>Inserisci il nome della famiglia o il tuo nome:</h2>
+  <input type="text" id="nome" placeholder="Famiglia Rossi">
+  <button onclick="genera()">Genera Auguri</button>
+  
+  <canvas id="canvas" width="1080" height="1080"></canvas>
+  <a id="download" download="auguri.png">Scarica immagine</a>
+
+  <script>
+    function genera() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const nome = document.getElementById('nome').value || "Famiglia ...";
+
+      const img = new Image();
+      img.src = 'base_auguri.png'; // usa solo il nome del file, deve stare nella stessa cartella
+      img.onload = function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        ctx.font = '60px Arial';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.fillText(nome, canvas.width / 2, canvas.height - 100);
+
+        const link = document.getElementById('download');
+        link.href = canvas.toDataURL('image/png');
+      }
+    }
+  </script>
+</body>
+</html>
