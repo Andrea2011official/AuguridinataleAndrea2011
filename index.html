@@ -80,8 +80,8 @@
       img.src = 'augurinatale.png';
 
       img.onload = function () {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.width = img.naturalWidth
+        canvas.height = img.naturalHeight
 
         // ===== CONFIGURAZIONE ULTRA PRECISA =====
         const centerX = canvas.width / 2;  // centro targhetta
@@ -109,5 +109,6 @@
 
 </body>
 </html>
+
 
 
